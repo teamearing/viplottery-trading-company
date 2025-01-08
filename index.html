@@ -1,179 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PRIVATE SERVER</title>
-  <style>
-    /* Full-screen setup */
-    body, html {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: black;
-    }
-
-    canvas {
-      display: block;
-    }
-
-    /* Button container */
-    .button-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-    }
-
-    .telegram-container {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    /* Button styles */
-    button {
-      display: block;
-      margin: 10px auto;
-      padding: 15px 30px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-    }
-
-    /* Individual button colors */
-    .zanti {
-      background-color: red;
-    }
-
-    .blade {
-      background: linear-gradient(45deg, green, red);
-    }
-
-    .tanjiro {
-      background-color: darkblue;
-    }
-
-    .god {
-      background-color: darkgreen;
-    }
-
-    .telegram {
-      background-color: red;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .info {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-  <!-- Canvas for particles -->
-  <canvas id="particles"></canvas>
+    <!-- Sign-In Page -->
+    <div class="container" id="sign-in-page">
+        <h1>Create Account</h1>
+        <form id="sign-in-form">
+            <label for="mobile">Enter Your 10-Digit Indian Mobile Number</label>
+            <input type="text" id="mobile" name="mobile" maxlength="10" required>
 
-  <!-- Button Container -->
-  <div class="button-container">
-    <button class="zanti" onclick="openLink('https://teammodx.github.io/Sexzanti/')">ZANTI MOD</button>
-    <button class="blade" onclick="openLink('https://teammodx.github.io/Bladeserver/')">BLADE MOD</button>
-    <button class="tanjiro" onclick="openLink('https://teammodx.github.io/Tanjito/')">TANJIRO MOD</button>
-    <button class="god" onclick="openLink('https://teamearing.github.io/godmod/')">GOD MOD</button>
-  </div>
+            <label for="password">Enter Your Password</label>
+            <input type="password" id="password" name="password" required>
 
-  <!-- Telegram Button -->
-  <div class="telegram-container">
-    <button class="telegram" onclick="openLink('https://t.me/+WpmHoGixzvkyOTc1')">JOIN TELEGRAM FREE HACKS</button>
-  </div>
+            <label for="confirm-password">Confirm Your Password</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
 
-  <script>
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+            <button type="button" onclick="createAccount()">Create Account</button>
+        </form>
+    </div>
 
-    let particlesArray = [];
-    const maxParticles = 150;
+    <!-- Payment Page -->
+    <div class="container" id="payment-page" style="display: none;">
+        <h1>Make Payment</h1>
+        <p>Your Current Balance is <strong>0 Rs</strong></p>
+        <p>Add Balance: <strong>3000 Rs</strong></p>
+        <p>Payment Details:</p>
+        <p><strong>Payment Here: zrlmods111@ybl</strong></p>
 
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 3 + 1;
-        this.speedX = Math.random() * 2 - 1;
-        this.speedY = Math.random() * 2 - 1;
-        this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-      }
+        <label for="utr">Enter 12-Digit UTR</label>
+        <input type="text" id="utr" name="utr" maxlength="12" required>
 
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
+        <button type="button" onclick="submitPayment()">Submit Payment</button>
+        <div class="info">Please ensure you use the correct UTR for successful verification.</div>
+    </div>
 
-        // Bounce off edges
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-      }
+    <script>
+        function createAccount() {
+            const mobile = document.getElementById('mobile').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
 
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-        ctx.closePath();
-      }
-    }
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
 
-    function initParticles() {
-      particlesArray = [];
-      for (let i = 0; i < maxParticles; i++) {
-        particlesArray.push(new Particle());
-      }
-    }
+            if (mobile.length !== 10 || isNaN(mobile)) {
+                alert('Please enter a valid 10-digit mobile number!');
+                return;
+            }
 
-    function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < particlesArray.length; i++) {
-        particlesArray[i].update();
-        particlesArray[i].draw();
-
-        // Draw connecting lines
-        for (let j = i; j < particlesArray.length; j++) {
-          const dx = particlesArray[i].x - particlesArray[j].x;
-          const dy = particlesArray[i].y - particlesArray[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 100) {
-            ctx.beginPath();
-            ctx.strokeStyle = 'rgba(255, 215, 0, 0.5)';
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-            ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-            ctx.stroke();
-            ctx.closePath();
-          }
+            alert('Account created successfully! Redirecting to payment page.');
+            document.getElementById('sign-in-page').style.display = 'none';
+            document.getElementById('payment-page').style.display = 'block';
         }
-      }
-      requestAnimationFrame(animateParticles);
-    }
 
-    function openLink(url) {
-      window.open(url, '_blank');
-    }
+        function submitPayment() {
+            const utr = document.getElementById('utr').value;
 
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      initParticles();
-    });
+            if (utr.length !== 12 || isNaN(utr)) {
+                alert('Please enter a valid 12-digit UTR!');
+                return;
+            }
 
-    initParticles();
-    animateParticles();
-  </script>
+            alert('Payment submitted successfully!');
+        }
+    </script>
 </body>
 </html>
